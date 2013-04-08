@@ -17,7 +17,7 @@ STANFORD_PARSER_DIR=${TLS_DIR}/ext/stanford-parser
 TOKENISE_PATH=${TLS_DIR}/GTB-tokenize.pl
 
 ${TOKENISE_PATH} \
-    | java -mx4096m -cp "${STANFORD_PARSER_DIR}/*" \
+    | java -mx8192m -cp "${STANFORD_PARSER_DIR}/*" \
         edu.stanford.nlp.parser.lexparser.LexicalizedParser \
         -sentences newline -tokenized -retainTmpSubcategories \
         -outputFormat oneline \
