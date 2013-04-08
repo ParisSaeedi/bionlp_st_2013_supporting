@@ -6,12 +6,14 @@
 FETCH_CMD=wget
 
 BIONLP_ST_2013_BASE_URL=http://2013.bionlp-st.org/tasks/
+# Back-up URL since GE went rogue with their test set.
+BIONLP_ST_2013_BASE_URL_SECONDARY=http://2013.bionlp-st.org/
 
 TASK_ABBREVS=GE CG PC GRO GRN BB
 
 GE_TRAIN_ARCH_FNAME=BioNLP-ST-2013_GE_train_data_rev2.tar.gz
 GE_DEV_ARCH_FNAME=BioNLP-ST-2013_GE_devel_data_rev2.tar.gz
-GE_TEST_ARCH_FNAME=
+GE_TEST_ARCH_FNAME=BioNLP-ST-2013_GE_test_data.tar.gz
 
 CG_TRAIN_ARCH_FNAME=BioNLP-ST_2013_CG_training_data.tar.gz
 CG_DEV_ARCH_FNAME=BioNLP-ST_2013_CG_development_data.tar.gz
@@ -43,11 +45,12 @@ all: ${ARCH_FNAMES}
 # Gentle macro to generate our fetch targets
 define fetch-target
 $1:
-	${FETCH_CMD} $2/$$@
+	${FETCH_CMD} $2/$$@ || ${FETCH_CMD} $3/$$@
 endef
 ${foreach ARCH_FNAME,${ARCH_FNAMES}, \
 	${eval \
-		${call fetch-target,${ARCH_FNAME},${BIONLP_ST_2013_BASE_URL}} \
+		${call fetch-target,${ARCH_FNAME},${BIONLP_ST_2013_BASE_URL},\
+			${BIONLP_ST_2013_BASE_URL_SECONDARY}} \
 	} \
 }
 
